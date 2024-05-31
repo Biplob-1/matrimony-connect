@@ -85,7 +85,7 @@ const Header = () => {
 
   return (
     <div>
-      <header className="p-4 bg-gray-100 text-gray-800">
+      <header className="p-4 bg-gray-400 text-gray-800">
         <div className="container flex justify-between h-16 mx-auto">
           <NavLink to="/" aria-label="Back to homepage" className="flex items-center p-2">
             <img src="https://i.ibb.co/MNJGtMc/logo.png" alt="Logo" className="h-8" />
