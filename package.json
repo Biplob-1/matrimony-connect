@@ -16,7 +16,8 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.23.1",
-    "sort-by": "^0.0.2"
+    "sort-by": "^0.0.2",
+    "swiper": "^11.1.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
