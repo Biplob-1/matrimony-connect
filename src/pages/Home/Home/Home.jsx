@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import Banner from "../Banner/Banner";
 import PremiumMembers from "../PremiumMembers/PremiumMembers/PremiumMembers";
 import CounterSection from "../CounterSection/CounterSection";
+import ReviewSection from "../ReviewSection/ReviewSection";
 
 
 const Home = () =>{
@@ -13,7 +14,7 @@ const Home = () =>{
             <Banner></Banner>
             <PremiumMembers></PremiumMembers>
             <CounterSection></CounterSection>
-            <h3>This Is Home.</h3>
+            <ReviewSection></ReviewSection>
         </div>
     )
 };

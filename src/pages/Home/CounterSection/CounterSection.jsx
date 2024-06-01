@@ -21,25 +21,25 @@ const CounterSection = () => {
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h2 className="text-2xl font-semibold">Total Biodatas</h2>
           <p className="mt-4 text-3xl font-bold text-blue-600">
-            <CountUp start={0} end={totalBiodatas} duration={2.5} />
+            <CountUp start={0} end={totalBiodatas} duration={5} />
           </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h2 className="text-2xl font-semibold">Girls Biodatas</h2>
           <p className="mt-4 text-3xl font-bold text-pink-600">
-            <CountUp start={0} end={girlsBiodatas} duration={2.5} />
+            <CountUp start={0} end={girlsBiodatas} duration={5} />
           </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h2 className="text-2xl font-semibold">Boys Biodatas</h2>
           <p className="mt-4 text-3xl font-bold text-blue-600">
-            <CountUp start={0} end={boysBiodatas} duration={2.5} />
+            <CountUp start={0} end={boysBiodatas} duration={5} />
           </p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h2 className="text-2xl font-semibold">Completed Marriages</h2>
           <p className="mt-4 text-3xl font-bold text-green-600">
-            <CountUp start={0} end={completedMarriages} duration={2.5} />
+            <CountUp start={0} end={completedMarriages} duration={5} />
           </p>
         </div>
       </div>
