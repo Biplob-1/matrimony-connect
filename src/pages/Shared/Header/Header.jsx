@@ -1,9 +1,21 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logOut } = useContext(AuthContext); 
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logOut(); 
+      navigate('/sign-in'); 
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   const navLinks = (
     <>
@@ -58,14 +70,18 @@ const Header = () => {
     </>
   );
 
-  const authLinks = (
+  const authLinks = user ? (
+    <button onClick={handleLogout} className="self-center px-8 py-3 rounded bg-violet-600 text-gray-50 hover:bg-violet-950">
+      Logout
+    </button>
+  ) : (
     <>
       <NavLink
         to="/sign-in"
         className={({ isActive }) =>
           isActive
             ? "self-center px-8 py-3 rounded bg-violet-600 text-gray-50 hover:bg-violet-950"
-            : "self-center px-8 py-3 rounded hover:bg-gray-200"
+            : "self-center px-8 py-3 rounded bg-violet-600 hover:bg-violet-950"
         }
       >
         Sign in
@@ -75,7 +91,7 @@ const Header = () => {
         className={({ isActive }) =>
           isActive
             ? "self-center px-8 py-3 rounded bg-violet-600 text-gray-50 hover:bg-violet-950"
-            : "self-center px-8 py-3 rounded hover:bg-gray-200"
+            : "self-center px-8 py-3 rounded bg-violet-600 hover:bg-violet-950"
         }
       >
         Sign up

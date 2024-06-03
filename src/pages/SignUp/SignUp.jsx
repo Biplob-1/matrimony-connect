@@ -1,16 +1,18 @@
 import { useState, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { fetchSignInMethodsForEmail, getAuth } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
+import Swal from 'sweetalert2'
 
 const SignUp = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState(null);
     const auth = getAuth();
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         setErrorMessage(null);
@@ -22,7 +24,16 @@ const SignUp = () => {
             }
             const result = await createUser(data.email, data.password, data.name, data.imageUrl);
             const loggedUser = result.user;
-            console.log(loggedUser);
+            reset();
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "User Registered Successfully ",
+                showConfirmButton: false,
+                timer: 1500
+              }).then(() => {
+                navigate('/')
+              })
         } catch (error) {
             if (error instanceof FirebaseError && error.code === 'auth/email-already-in-use') {
                 setErrorMessage('Email already exists. Please use a different email.');
