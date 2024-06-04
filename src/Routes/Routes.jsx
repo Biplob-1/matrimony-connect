@@ -6,6 +6,9 @@ import About from "../pages/About/About";
 import Contact from "../pages/ContactUs/Contact";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
+import UserDashboard from "../Layout/UserDashboard/UserDashboard";
+import EditBiodatas from "../pages/UserDashboard/Biodatas/EditBiodatas";
+import ViewBiodatas from "../pages/UserDashboard/Biodatas/ViewBiodatas";
 
   export const router = createBrowserRouter([
     {
@@ -38,4 +41,19 @@ import SignUp from "../pages/SignUp/SignUp";
         }
       ]
     },
+    {
+      path: '/UserDashboard',
+      element: <UserDashboard></UserDashboard>,
+      children: [
+        {
+          path: 'edit-biodata',
+          element: <EditBiodatas></EditBiodatas>
+        },
+        {
+          path: 'view-biodata',
+          element: <ViewBiodatas></ViewBiodatas>
+        }
+
+      ]
+    }
   ]);
