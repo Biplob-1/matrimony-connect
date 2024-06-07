@@ -5,6 +5,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 
+
 const EditBiodatas = () => {
   const { user } = useContext(AuthContext);
   const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
