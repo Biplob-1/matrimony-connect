@@ -1,10 +1,15 @@
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../Providers/AuthProvider';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 const EditBiodatas = () => {
   const { user } = useContext(AuthContext);
   const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   useEffect(() => {
     reset({
@@ -13,7 +18,7 @@ const EditBiodatas = () => {
     });
   }, [user, reset]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     const today = new Date();
     const dob = new Date(data.dob);
     let age = today.getFullYear() - dob.getFullYear();
@@ -29,8 +34,23 @@ const EditBiodatas = () => {
       });
       return;
     }
+    console.log(data)
 
-    console.log(data);
+    try {
+      const response = await axiosSecure.post('/biodatas', data);
+      console.log('response data', response.data);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Biodata created or edited successfully.",
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        navigate('/UserDashboard/view-biodata')
+      })
+    } catch (error) {
+      console.error('Error submitting biodata:', error);
+    }
   };
 
   return (
@@ -56,7 +76,8 @@ const EditBiodatas = () => {
             <div>
               <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700">Profile Image</label>
               {/* <input {...register("profileImageUpload")} id="profileImageUpload" type="file" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" /> */}
-              <input type="url" id="profileImage" name="profileImage" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder='URL'></input>
+              <input type="url"{...register("profileImage", { required: "profileImage URL is required" })} id="profileImage"  class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder='URL'></input>
+              {errors.profileImage && <span className="text-red-600 text-sm">{errors.profileImage.message}</span>}
             </div>
             <div>
               <label htmlFor="dob" className="block text-sm font-medium text-gray-700">Date of Birth</label>
