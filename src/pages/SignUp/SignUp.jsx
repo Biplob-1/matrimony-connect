@@ -5,9 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { fetchSignInMethodsForEmail, getAuth } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const SignUp = () => {
+    const axiosSecure = useAxiosSecure();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -24,20 +27,38 @@ const SignUp = () => {
             }
             const result = await createUser(data.email, data.password, data.name, data.imageUrl);
             const loggedUser = result.user;
-            reset();
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "User Registered Successfully ",
-                showConfirmButton: false,
-                timer: 1500
-              }).then(() => {
-                navigate('/')
-              })
+
+            // Create user entry in database
+            const userInfo = {
+                name: data.name,
+                email: data.email
+            };
+            try {
+                const response = await axiosSecure.post('/users', userInfo);
+                if (response.data && response.data.insertedId) {
+                    reset();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "User Registered Successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        navigate('/');
+                    });
+                } else {
+                    setErrorMessage('Failed to add user to the database.');
+                }
+            } catch (error) {
+                console.error('Axios request error:', error);
+                setErrorMessage('Failed to add user to the database.');
+            }
+
         } catch (error) {
             if (error instanceof FirebaseError && error.code === 'auth/email-already-in-use') {
                 setErrorMessage('Email already exists. Please use a different email.');
             } else {
+                console.error('Firebase error:', error);
                 setErrorMessage(error.message);
             }
         }
@@ -118,6 +139,7 @@ const SignUp = () => {
                         {errorMessage && <p className="text-red-600">{errorMessage}</p>}
                         <button className="block w-full p-3 text-center rounded-md bg-violet-600 text-gray-100 dark:bg-violet-700 dark:text-gray-100 uppercase">Sign Up</button>
                     </form>
+                    <SocialLogin></SocialLogin>
                     <p className="text-xs text-center sm:px-6 text-gray-600 dark:text-gray-400">Already have an account? Please
                         <Link to={'/sign-in'}><button className="btn btn-link font-bold">Sign In</button></Link>
                     </p>

@@ -71,9 +71,16 @@ const Header = () => {
   );
 
   const authLinks = user ? (
+    <>
+    <NavLink to={'/UserDashboard'}>
+    <button  className="self-center px-8 py-3 rounded bg-violet-600 text-gray-50 hover:bg-violet-950">
+      DashBoard
+    </button>
+    </NavLink>
     <button onClick={handleLogout} className="self-center px-8 py-3 rounded bg-violet-600 text-gray-50 hover:bg-violet-950">
       Logout
     </button>
+    </>
   ) : (
     <>
       <NavLink

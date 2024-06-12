@@ -9,6 +9,9 @@ import SignUp from "../pages/SignUp/SignUp";
 import UserDashboard from "../Layout/UserDashboard/UserDashboard";
 import EditBiodatas from "../pages/UserDashboard/Biodatas/EditBiodatas";
 import ViewBiodatas from "../pages/UserDashboard/Biodatas/ViewBiodatas";
+import AdminDashboard from "../pages/UserDashboard/admin/AdminDashboard";
+import AllUsers from "../pages/UserDashboard/admin/AllUsers";
+import PrivateRoute from "./PrivateRoute";
 
   export const router = createBrowserRouter([
     {
@@ -43,8 +46,9 @@ import ViewBiodatas from "../pages/UserDashboard/Biodatas/ViewBiodatas";
     },
     {
       path: '/UserDashboard',
-      element: <UserDashboard></UserDashboard>,
+      element: <PrivateRoute><UserDashboard></UserDashboard></PrivateRoute>,
       children: [
+        // user routes
         {
           path: 'edit-biodata',
           element: <EditBiodatas></EditBiodatas>
@@ -52,6 +56,16 @@ import ViewBiodatas from "../pages/UserDashboard/Biodatas/ViewBiodatas";
         {
           path: 'view-biodata',
           element: <ViewBiodatas></ViewBiodatas>
+        },
+        // admin routes
+        {
+          path: 'admin-dashboard',
+          element: <AdminDashboard></AdminDashboard>
+        }
+        ,
+        {
+          path: 'all-users',
+          element: <AllUsers></AllUsers>
         }
 
       ]
