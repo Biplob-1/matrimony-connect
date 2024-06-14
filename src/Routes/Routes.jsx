@@ -12,6 +12,7 @@ import ViewBiodatas from "../pages/UserDashboard/Biodatas/ViewBiodatas";
 import AdminDashboard from "../pages/UserDashboard/admin/AdminDashboard";
 import AllUsers from "../pages/UserDashboard/admin/AllUsers";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
   export const router = createBrowserRouter([
     {
@@ -60,12 +61,12 @@ import PrivateRoute from "./PrivateRoute";
         // admin routes
         {
           path: 'admin-dashboard',
-          element: <AdminDashboard></AdminDashboard>
+          element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>
         }
         ,
         {
           path: 'all-users',
-          element: <AllUsers></AllUsers>
+          element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
         }
 
       ]
