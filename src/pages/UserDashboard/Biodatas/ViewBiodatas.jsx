@@ -1,37 +1,22 @@
-import { useState } from 'react';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import useBiodata from '../../../hooks/useBiodata';
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useContext, useState } from "react";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
 const ViewBiodatas = () => {
-  const navigate = useNavigate();
+  const {user}= useContext(AuthContext);
   const [isPremium, setIsPremium] = useState(false);
-
-  const [biodata] = useBiodata()
-  console.log('show all biodata: ',biodata);
-
-
-  // Example biodata information (replace with actual data source)
-  const items = {
-    type: 'Male',
-    name: 'John Doe',
-    profileImage: 'https://example.com/profile.jpg',
-    dob: '1990-01-01',
-    height: '175.26',
-    weight: '70',
-    age: 34,
-    occupation: 'Job',
-    race: 'Christian',
-    fathersName: 'Father Name',
-    mothersName: 'Mother Name',
-    permanentDivision: 'Dhaka',
-    presentDivision: 'Chattagram',
-    expectedPartnerAge: 30,
-    expectedPartnerHeight: '160.02',
-    expectedPartnerWeight: '50',
-    contactEmail: 'john@example.com',
-    mobileNumber: '1234567890'
-  };
+  const axiosSecure = useAxiosSecure();
+  
+  const {data : biodatas = [], refetch} = useQuery({
+      queryKey: ['biodatas'],
+      queryFn: async () => {
+          const res = await axiosSecure.get('/biodatas');
+          return res.data;
+      }
+  });
+  const filterBiodatas =  biodatas.filter(biodata => biodata.contactEmail === user.email);
 
   const handleMakePremium = () => {
     Swal.fire({
@@ -55,95 +40,109 @@ const ViewBiodatas = () => {
     });
   };
 
+  // console.log(biodatas)
   return (
-    <div className="bg-gray-100 p-8">
-      <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">View Biodatas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Biodata Type</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.type}</p>
+    <div className="container mx-auto p-4">
+      <h3 className="text-3xl font-bold text-center">{user.displayName} Biodata</h3>
+      <div className="overflow-x-auto">
+        {
+          filterBiodatas.map((biodata) => (
+        <table className="min-w-full bg-white rounded-lg border-collapse mt-5 border">
+          <div className="flex justify-between mt-5 items-center">
+          <img src={biodata.profileImage} alt="" className="max-w-[100px] max-h-[100px] object-cover rounded-full ml-2 md:ml-10 " />
+          <h3 className="text-2xl font-semibold mr-2 md:mr-5"> Biodata Id: {biodata.biodataId}</h3>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.name}</p>
+          <tbody className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 p-4 rounded-lg  w-full">
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Name</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.name}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 md:px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Email</th>
+              <td className="py-2 md:px-4 border-b border-gray-300">{biodata.contactEmail}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Phone Number</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.mobileNumber}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Date of Birth</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.dob}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Age</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.age} Year</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Race</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.race}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Gender</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.type}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Occupation</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.occupation}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Father Name</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.fathersName}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Mother Name</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.mothersName}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Height</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.height} (cm)</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Weight</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.weight} (kg)</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Present Division</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.presentDivision}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Permanent Division</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.permanentDivision}</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Expected Partner Age</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.expectedPartnerAge} Year</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Expected Partner Height</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.expectedPartnerHeight} (cm)</td>
+            </tr>
+            <tr className="border">
+              <th className="py-2 px-4 bg-gray-200 font-semibold text-gray-700 border-b-2 border-gray-300">Expected Partner Weight</th>
+              <td className="py-2 px-4 border-b border-gray-300">{biodata.expectedPartnerWeight} (kg)</td>
+            </tr>
+          </tbody>
+          <div className=" flex flex-col md:flex-row justify-center gap-2 md:gap-5 pb-5">
+            <button
+              onClick={handleMakePremium}
+              className="md:px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
+            >
+              Make Biodata Premium
+            </button>
+            <button
+              onClick={handleMakePremium}
+              className="md:px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
+            >
+              Update Biodata 
+            </button>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Profile Image</label>
-            <img src={items.profileImage} alt="Profile" className="mt-1 w-full h-auto rounded-md" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.dob}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Height</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.height} cm</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Weight</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.weight} kg</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Age</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.age}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Occupation</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.occupation}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Race</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.race}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Father's Name</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.fathersName}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Mother's Name</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.mothersName}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Permanent Division</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.permanentDivision}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Present Division</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.presentDivision}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Expected Partner Age</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.expectedPartnerAge}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Expected Partner Height</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.expectedPartnerHeight} cm</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Expected Partner Weight</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.expectedPartnerWeight} kg</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Contact Email</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.contactEmail}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Mobile Number</label>
-            <p className="mt-1 block w-full p-2 border border-gray-300 rounded-md">{items.mobileNumber}</p>
-          </div>
-        </div>
-        <div className="text-right mt-4">
-          <button
-            onClick={handleMakePremium}
-            className="px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
-          >
-            Make Biodata Premium
-          </button>
-        </div>
+        </table>
+      ))
+    }
       </div>
     </div>
   );
 };
 
 export default ViewBiodatas;
+

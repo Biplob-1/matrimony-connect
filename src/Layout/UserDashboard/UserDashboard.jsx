@@ -19,6 +19,7 @@ const UserDashboard = () => {
                         : 
                         <>
                             <li><NavLink to={'user-dashboard'}>User DashBoard</NavLink></li>
+                            <li><NavLink to={'add-biodata'}>Add Biodata</NavLink></li>
                             <li><NavLink to={'edit-biodata'}>Edit Biodata</NavLink></li>
                             <li><NavLink to={'view-biodata'}>View Biodata</NavLink></li>
                             <li><NavLink to={'view-biodata'}> My Contact Request</NavLink></li>

@@ -13,6 +13,7 @@ import AdminDashboard from "../pages/UserDashboard/admin/AdminDashboard";
 import AllUsers from "../pages/UserDashboard/admin/AllUsers";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import AddBiodatas from "../pages/UserDashboard/Biodatas/AddBiodatas";
 
   export const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ import AdminRoute from "./AdminRoute";
           path: 'view-biodata',
           element: <ViewBiodatas></ViewBiodatas>
         },
+        {
+          path: 'add-biodata',
+          element: <AddBiodatas></AddBiodatas>
+        },
         // admin routes
         {
           path: 'admin-dashboard',
@@ -67,7 +72,8 @@ import AdminRoute from "./AdminRoute";
         {
           path: 'all-users',
           element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
-        }
+        },
+
 
       ]
     }

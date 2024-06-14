@@ -1,36 +1,28 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../Providers/AuthProvider';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
-import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
-const EditBiodatas = () => {
+// const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+const AddBiodatas = () => {
   const { user } = useContext(AuthContext);
   const { register, handleSubmit, formState: { errors }, setError, reset } = useForm();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  const { id } = useParams(); // Assuming the route includes the biodata ID
-
-  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
-    const fetchBiodata = async () => {
-      try {
-        const response = await axiosSecure.get(`/biodatas/${id}`);
-        const biodata = response.data;
-        reset(biodata);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching biodata:', error);
-        setLoading(false);
-      }
-    };
+    reset({
+      name: user?.displayName || '',
+      contactEmail: user?.email || ''
+    });
+  }, [user, reset]);
 
-    fetchBiodata();
-  }, [id, axiosSecure, reset]);
-
-  const onSubmit = async (data) => {
+  const onSubmit = async(data) => {
     const today = new Date();
     const dob = new Date(data.dob);
     let age = today.getFullYear() - dob.getFullYear();
@@ -45,28 +37,24 @@ const EditBiodatas = () => {
         message: "You must be at least 18 years old",
       });
       return;
-    }
+    };
 
     try {
-      const response = await axiosSecure.put(`/biodatas/${id}`, data);
-      console.log('response data', response.data);
+      const response = await axiosSecure.post('/biodatas', data);
+      // console.log('response data', response.data);
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Biodata updated successfully.",
+        title: "Biodata Add successfully.",
         showConfirmButton: false,
         timer: 1500
       }).then(() => {
-        navigate('/UserDashboard/view-biodata');
-      });
+        navigate('/UserDashboard/view-biodata')
+      })
     } catch (error) {
-      console.error('Error updating biodata:', error);
+      console.error('Error submitting biodata:', error);
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="bg-gray-100 p-8">
@@ -85,12 +73,13 @@ const EditBiodatas = () => {
             </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-              <input {...register("name")} id="name" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" readOnly value={user?.displayName} />
+              <input {...register("name")} id="name" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" readOnly  value={user?.displayName}/>
               {errors.name && <span className="text-red-600 text-sm">{errors.name.message}</span>}
             </div>
             <div>
               <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700">Profile Image</label>
-              <input type="url" {...register("profileImage", { required: "profileImage URL is required" })} id="profileImage" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder='URL' />
+              {/* <input {...register("profileImageUpload")} id="profileImageUpload" type="file" className="mt-1 block w-full p-2 border border-gray-300 rounded-md" /> */}
+              <input type="url"{...register("profileImage", { required: "profileImage URL is required" })} id="profileImage"  class="mt-1 block w-full p-2 border border-gray-300 rounded-md" placeholder='URL'></input>
               {errors.profileImage && <span className="text-red-600 text-sm">{errors.profileImage.message}</span>}
             </div>
             <div>
@@ -249,4 +238,4 @@ const EditBiodatas = () => {
   );
 };
 
-export default EditBiodatas;
+export default AddBiodatas;
