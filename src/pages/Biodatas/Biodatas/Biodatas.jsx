@@ -2,16 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useAxiosPublic from '../../../hooks/useAxiosPublic';
 
 
 
 
 const Biodatas = () => {
     const axiosSecure = useAxiosSecure();
-    const {data : biodatas = [], refetch} = useQuery({
-        queryKey: ['biodatas'],
+    const axiosPublic = useAxiosPublic();
+    const {data : allBiodatas = [], refetch} = useQuery({
+        queryKey: ['allBiodatas'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/biodatas');
+            const res = await axiosPublic.get('/allBiodatas');
             return res.data;
         }
     });
@@ -60,7 +62,7 @@ const Biodatas = () => {
 
                     {/* Biodata Section */}
                     <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {biodatas.map(biodata => (
+                        {allBiodatas.map(biodata => (
                             <div key={biodata.id} className="bg-white p-4 rounded shadow-md flex flex-col items-center">
                                 <img src={biodata.profileImage} alt="Profile Image" className="w-24 h-24 rounded-full mb-4" />
                                 <div className="text-center">
