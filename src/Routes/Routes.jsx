@@ -14,6 +14,7 @@ import AllUsers from "../pages/UserDashboard/admin/AllUsers";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import AddBiodatas from "../pages/UserDashboard/Biodatas/AddBiodatas";
+import BiodataDetail from "../pages/Biodatas/Biodatas/BiodataDetail";
 
   export const router = createBrowserRouter([
     {
@@ -27,6 +28,12 @@ import AddBiodatas from "../pages/UserDashboard/Biodatas/AddBiodatas";
         {
             path: '/biodatas',
             element:<Biodatas></Biodatas>
+        },
+        {
+          path: '/biodata-detail/:id',
+          element:<PrivateRoute><BiodataDetail></BiodataDetail></PrivateRoute>,
+          // element:<BiodataDetail></BiodataDetail>,
+          loader: ({params}) => fetch(`https://shaadi-server-eta.vercel.app/allBiodatas/${params.id}`),
         },
         {
             path: '/about-us',

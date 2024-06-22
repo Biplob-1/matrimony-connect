@@ -3,6 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import { Link } from 'react-router-dom';
 
 
 
@@ -66,12 +67,14 @@ const Biodatas = () => {
                             <div key={biodata.id} className="bg-white p-4 rounded shadow-md flex flex-col items-center">
                                 <img src={biodata.profileImage} alt="Profile Image" className="w-24 h-24 rounded-full mb-4" />
                                 <div className="text-center">
-                                    <h3 className="text-lg font-semibold">Biodata Id: {biodata.id}</h3>
+                                    <h3 className="text-lg font-semibold">Biodata Id: {biodata.biodataId}</h3>
                                     <p>Biodata Type: {biodata.type}</p>
                                     <p>Permanent Division: {biodata.permanentDivision}</p>
                                     <p>Age: {biodata.age}</p>
                                     <p>Occupation: {biodata.occupation}</p>
-                                    <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">View Profile</button>
+                                    <Link to={`/biodata-detail/${biodata._id}`}>
+                                        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">View Profile</button>
+                                    </Link>
                                 </div>
                             </div>
                         ))}
