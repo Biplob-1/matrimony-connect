@@ -14,7 +14,7 @@ const About = () => {
                         Welcome to Shaadi, your trusted platform for finding the perfect match. Our mission is to connect people from all over the world, helping them find love and companionship.
                     </p>
                     <p className="text-gray-700 text-lg mb-4">
-                        Founded in 2021, Shaadi has grown to become a leading matrimonial site, dedicated to bringing together singles from various backgrounds. Our team is committed to providing a safe and secure environment for our members, ensuring that their journey to find a partner is as smooth and enjoyable as possible.
+                        Founded in 2001, Shaadi has grown to become a leading matrimonial site, dedicated to bringing together singles from various backgrounds. Our team is committed to providing a safe and secure environment for our members, ensuring that their journey to find a partner is as smooth and enjoyable as possible.
                     </p>
                     <p className="text-gray-700 text-lg mb-4">
                         Our user-friendly platform allows members to create detailed profiles, search for potential matches based on specific criteria, and communicate with each other through a secure messaging system. We continuously work on improving our services and features to enhance your experience and increase your chances of finding the right match.
