@@ -1,8 +1,20 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
+import { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const UserDashboard = () => {
     const [isAdmin] = useAdmin();
+    const {logOut} = useContext(AuthContext)
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        try {
+          await logOut();
+          navigate('/sign-in');
+        } catch (error) {
+          console.error("Logout error:", error);
+        }
+      };
     return(
         <div className="flex">
             <div className="max-w-60 max-h-screen bg-purple-400">
@@ -20,7 +32,7 @@ const UserDashboard = () => {
                         <>
                             <li><NavLink to={'user-dashboard'}>User DashBoard</NavLink></li>
                             <li><NavLink to={'add-biodata'}>Add Biodata</NavLink></li>
-                            <li><NavLink to={'edit-biodata'}>Edit Biodata</NavLink></li>
+                            {/* <li><NavLink to={'edit-biodata'}>Edit Biodata</NavLink></li> */}
                             <li><NavLink to={'view-biodata'}>View Biodata</NavLink></li>
                             <li><NavLink to={'view-biodata'}> My Contact Request</NavLink></li>
                             <li><NavLink to={'view-biodata'}>Favourites Biodata</NavLink></li>
@@ -28,7 +40,7 @@ const UserDashboard = () => {
                     }
 
                     {/* shared navlink */}
-                    <li><NavLink to={'admin-dashboard'}>Logout</NavLink></li>
+                    <li><button onClick={handleLogout}>Logout</button></li>
                     
                 </ul>
             </div>

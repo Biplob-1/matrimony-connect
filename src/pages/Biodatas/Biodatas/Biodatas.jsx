@@ -1,24 +1,20 @@
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
-const biodatas = [
-  // Example biodatas. You should replace this with your actual data.
-  { id: 1, type: 'Male', image: 'profile-image-url.jpg', division: 'Dhaka', age: 28, occupation: 'Engineer' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  { id: 2, type: 'Female', image: 'profile-image-url2.jpg', division: 'Chattagram', age: 25, occupation: 'Teacher' },
-  // Repeat this for 20 biodatas or use actual data fetching logic
-];
+
+
 
 const Biodatas = () => {
+    const axiosSecure = useAxiosSecure();
+    const {data : biodatas = [], refetch} = useQuery({
+        queryKey: ['biodatas'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/biodatas');
+            return res.data;
+        }
+    });
     return (
         <div>
             <Helmet>
@@ -66,11 +62,11 @@ const Biodatas = () => {
                     <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {biodatas.map(biodata => (
                             <div key={biodata.id} className="bg-white p-4 rounded shadow-md flex flex-col items-center">
-                                <img src={biodata.image} alt="Profile Image" className="w-24 h-24 rounded-full mb-4" />
+                                <img src={biodata.profileImage} alt="Profile Image" className="w-24 h-24 rounded-full mb-4" />
                                 <div className="text-center">
                                     <h3 className="text-lg font-semibold">Biodata Id: {biodata.id}</h3>
                                     <p>Biodata Type: {biodata.type}</p>
-                                    <p>Permanent Division: {biodata.division}</p>
+                                    <p>Permanent Division: {biodata.permanentDivision}</p>
                                     <p>Age: {biodata.age}</p>
                                     <p>Occupation: {biodata.occupation}</p>
                                     <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">View Profile</button>

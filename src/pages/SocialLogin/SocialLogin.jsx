@@ -7,7 +7,7 @@ const SocialLogin = () => {
     const {googleSignIn} = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
-console.log('hello')
+// console.log('hello')
     const handleGoogleSignIn = () => {
 
             googleSignIn()
@@ -17,10 +17,10 @@ console.log('hello')
                     email: result.user?.email,
                     name: result.user?.displayName
                 }
-                console.log(userInfo)
+                // console.log(userInfo)
                 axiosPublic.post('/users', userInfo)
                 .then(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     navigate('/')
                 })
             })

@@ -3,10 +3,13 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../Providers/AuthProvider";
+import EditBiodataModal from "./EditBiodataModal ";
 
 const ViewBiodatas = () => {
   const {user}= useContext(AuthContext);
   const [isPremium, setIsPremium] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBiodata, setSelectedBiodata] = useState(null);
   const axiosSecure = useAxiosSecure();
   
   const {data : biodatas = [], refetch} = useQuery({
@@ -40,6 +43,10 @@ const ViewBiodatas = () => {
     });
   };
 
+ const editBiodata = (biodata) => {
+    setSelectedBiodata(biodata);
+    setIsModalOpen(true);
+  };
   // console.log(biodatas)
   return (
     <div className="container mx-auto p-4">
@@ -130,7 +137,7 @@ const ViewBiodatas = () => {
               Make Biodata Premium
             </button>
             <button
-              onClick={handleMakePremium}
+              onClick={() => editBiodata(biodata)}
               className="md:px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
             >
               Update Biodata 
@@ -140,6 +147,14 @@ const ViewBiodatas = () => {
       ))
     }
       </div>
+      {isModalOpen && (
+        <EditBiodataModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          biodata={selectedBiodata}
+          refetch={refetch}
+        />
+      )}
     </div>
   );
 };
