@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -8,12 +8,15 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT);
 
 const CheckoutForm = ({ biodataId }) => {
+    const biodataDetail = useLoaderData();
+    console.log(biodataDetail)
   const { user } = useContext(AuthContext);
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const navigate =useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,8 +44,11 @@ const CheckoutForm = ({ biodataId }) => {
     try {
       const paymentData = {
         biodataId,
+        name: biodataDetail.name,
+        mobileNumber: biodataDetail.mobileNumber,
         userEmail: user.email,
-        amount: 5, // Amount in dollars
+        amount: 5, 
+        customerEmail: biodataDetail.email,
       };
 
       const response = await axiosSecure.post('/payment', paymentData);
@@ -62,7 +68,20 @@ const CheckoutForm = ({ biodataId }) => {
 
       if (paymentIntent.status === 'succeeded') {
         alert("Payment successful and request sent");
-        // Redirect or update UI as necessary
+        const paymentInfo = {
+            paymentIntentId: paymentIntent.id,
+            amount: paymentIntent.amount,
+            currency: paymentIntent.currency,
+            userEmail: user.email,
+            biodataId: biodataId,
+            type: 'pending',
+            status: paymentIntent.status,
+            createdAt: new Date(),
+          };
+          const response = await axiosSecure.post('/insertPayment', paymentInfo);
+
+          navigate('/UserDashboard/contact-request');
+        
       } else {
         alert("Payment failed");
       }

@@ -17,6 +17,7 @@ import AddBiodatas from "../pages/UserDashboard/Biodatas/AddBiodatas";
 import BiodataDetail from "../pages/Biodatas/Biodatas/BiodataDetail";
 import FavouriteBiodatas from "../pages/UserDashboard/Biodatas/FavouriteBiodatas";
 import Checkout from "../pages/Checkout/Checkout";
+import ContactRequest from "../pages/UserDashboard/ContactRequest";
 
 
   export const router = createBrowserRouter([
@@ -75,6 +76,10 @@ import Checkout from "../pages/Checkout/Checkout";
         {
           path: 'view-biodata',
           element: <ViewBiodatas></ViewBiodatas>
+        },
+        {
+          path: 'contact-request',
+          element: <ContactRequest></ContactRequest>
         },
         {
           path: 'add-biodata',

@@ -34,7 +34,7 @@ const UserDashboard = () => {
                             <li><NavLink to={'add-biodata'}>Add Biodata</NavLink></li>
                             {/* <li><NavLink to={'edit-biodata'}>Edit Biodata</NavLink></li> */}
                             <li><NavLink to={'view-biodata'}>View Biodata</NavLink></li>
-                            <li><NavLink to={'view-biodata'}> My Contact Request</NavLink></li>
+                            <li><NavLink to={'contact-request'}> My Contact Request</NavLink></li>
                             <li><NavLink to={'favourites-biodatas'}>Favourites Biodata</NavLink></li>
                         </>
                     }
