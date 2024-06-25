@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useContext,  useState } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
@@ -8,6 +8,7 @@ const BiodataDetail = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(false);
+  const navigate = useNavigate();
 
 
   const addToFavourites = async () => {
@@ -32,7 +33,10 @@ const BiodataDetail = () => {
       }
     }
   };
-  
+  const handleRequestContact = (biodataId) => {
+    navigate(`/UserDashboard/checkout/${biodataId}`);
+  };
+
 
   return (
     <div>
@@ -110,6 +114,16 @@ const BiodataDetail = () => {
             <td className="py-2 px-4 border-b border-gray-300">{biodata.expectedPartnerWeight} (kg)</td>
           </tr>
         </tbody>
+            <div className="items-center text-center">
+            <Link to={`/checkout/${biodata._id}`}>
+            <button 
+                className='mb-5 align-middle text-2xl font-semibold md:px-4 py-2 mr-2 md:mr-5 bg-blue-500 hover:bg-blue-700  text-white rounded-md'
+                // onClick={() => handleRequestContact(biodata.biodataId)}
+            >
+                Request Contact Information
+            </button>
+            </Link>
+            </div>
       </table>
     </div>
   );

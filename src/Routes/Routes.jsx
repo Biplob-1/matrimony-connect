@@ -15,6 +15,9 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import AddBiodatas from "../pages/UserDashboard/Biodatas/AddBiodatas";
 import BiodataDetail from "../pages/Biodatas/Biodatas/BiodataDetail";
+import FavouriteBiodatas from "../pages/UserDashboard/Biodatas/FavouriteBiodatas";
+import Checkout from "../pages/Checkout/Checkout";
+
 
   export const router = createBrowserRouter([
     {
@@ -32,6 +35,13 @@ import BiodataDetail from "../pages/Biodatas/Biodatas/BiodataDetail";
         {
           path: '/biodata-detail/:id',
           element:<PrivateRoute><BiodataDetail></BiodataDetail></PrivateRoute>,
+          // element:<BiodataDetail></BiodataDetail>,
+          loader: ({params}) => fetch(`https://shaadi-server-eta.vercel.app/allBiodatas/${params.id}`),
+        },
+        
+        {
+          path: '/checkout/:id',
+          element:<PrivateRoute><Checkout></Checkout></PrivateRoute>,
           // element:<BiodataDetail></BiodataDetail>,
           loader: ({params}) => fetch(`https://shaadi-server-eta.vercel.app/allBiodatas/${params.id}`),
         },
@@ -69,6 +79,10 @@ import BiodataDetail from "../pages/Biodatas/Biodatas/BiodataDetail";
         {
           path: 'add-biodata',
           element: <AddBiodatas></AddBiodatas>
+        },
+        {
+          path: 'favourites-biodatas',
+          element: <FavouriteBiodatas></FavouriteBiodatas>
         },
         // admin routes
         {

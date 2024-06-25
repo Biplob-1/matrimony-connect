@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
@@ -35,12 +35,13 @@ const UserDashboard = () => {
                             {/* <li><NavLink to={'edit-biodata'}>Edit Biodata</NavLink></li> */}
                             <li><NavLink to={'view-biodata'}>View Biodata</NavLink></li>
                             <li><NavLink to={'view-biodata'}> My Contact Request</NavLink></li>
-                            <li><NavLink to={'view-biodata'}>Favourites Biodata</NavLink></li>
+                            <li><NavLink to={'favourites-biodatas'}>Favourites Biodata</NavLink></li>
                         </>
                     }
 
                     {/* shared navlink */}
                     <li><button onClick={handleLogout}>Logout</button></li>
+                    <li><Link to={'/'}><button>Home</button></Link></li>
                     
                 </ul>
             </div>
