@@ -33,7 +33,7 @@ const BiodataDetail = () => {
       }
     }
   };
-  console.log(biodata)
+  // console.log(biodata)
   const handleRequestContact = (biodataId) => {
     navigate(`/UserDashboard/checkout/${biodata.biodataId}`);
   };

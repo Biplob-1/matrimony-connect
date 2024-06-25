@@ -25,12 +25,12 @@ const UserDashboard = () => {
                             <li><NavLink to={'all-users'}>Manage Users</NavLink></li>
                             <li><NavLink to={'admin-dashboard'}> Approved Premium
                             </NavLink></li>
-                            <li><NavLink to={'admin-dashboard'}>Approved Contact Request</NavLink></li>
+                            <li><NavLink to={'all-req'}>Approved Contact Request</NavLink></li>
                             
                         </>
                         : 
                         <>
-                            <li><NavLink to={'user-dashboard'}>User DashBoard</NavLink></li>
+                            {/* <li><NavLink to={'user-dashboard'}>User DashBoard</NavLink></li> */}
                             <li><NavLink to={'add-biodata'}>Add Biodata</NavLink></li>
                             {/* <li><NavLink to={'edit-biodata'}>Edit Biodata</NavLink></li> */}
                             <li><NavLink to={'view-biodata'}>View Biodata</NavLink></li>

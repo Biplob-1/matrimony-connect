@@ -76,8 +76,16 @@ const CheckoutForm = ({ biodataId }) => {
             biodataId: biodataId,
             type: 'pending',
             status: paymentIntent.status,
+            name: biodataDetail.name,
+            mobileNumber: biodataDetail.mobileNumber,
+            customerEmail: biodataDetail.contactEmail,
             createdAt: new Date(),
           };
+          console.log('alll biodatatatatat:',biodataDetail);
+          console.log(biodataDetail.mobileNumber);
+          console.log(biodataDetail.contactEmail);
+          console.log(biodataDetail.name);
+          console.log(paymentInfo);
           const response = await axiosSecure.post('/insertPayment', paymentInfo);
 
           navigate('/UserDashboard/contact-request');

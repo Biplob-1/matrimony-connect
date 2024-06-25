@@ -58,11 +58,11 @@ const ContactRequest = () => {
           <tbody className="text-gray-600 text-sm font-light">
             {userContactRequests.map((request) => (
               <tr key={request._id} className="border-b border-gray-200 hover:bg-gray-100">
-                <td className="py-3 px-6 text-left whitespace-nowrap">{request.userEmail}</td>
+                <td className="py-3 px-6 text-left whitespace-nowrap">{request.name}</td>
                 <td className="py-3 px-6 text-left">{request.biodataId}</td>
                 <td className="py-3 px-6 text-left">{request?.type}</td>
-                <td className="py-3 px-6 text-left">{request?.type === 'Approved' ? request.mobile : '-'}</td>
-                <td className="py-3 px-6 text-left">{request?.type === 'Approved' ? request.email : '-'}</td>
+                <td className="py-3 px-6 text-left">{request?.type === 'Approved' ? request.mobileNumber : '-'}</td>
+                <td className="py-3 px-6 text-left">{request?.type === 'Approved' ? request.customerEmail : '-'}</td>
                 <td className="py-3 px-6 text-left">
                     <button
                       className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"

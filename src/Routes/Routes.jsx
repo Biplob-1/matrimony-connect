@@ -18,6 +18,7 @@ import BiodataDetail from "../pages/Biodatas/Biodatas/BiodataDetail";
 import FavouriteBiodatas from "../pages/UserDashboard/Biodatas/FavouriteBiodatas";
 import Checkout from "../pages/Checkout/Checkout";
 import ContactRequest from "../pages/UserDashboard/ContactRequest";
+import AllContactReq from "../pages/UserDashboard/admin/AllContactReq";
 
 
   export const router = createBrowserRouter([
@@ -89,12 +90,15 @@ import ContactRequest from "../pages/UserDashboard/ContactRequest";
           path: 'favourites-biodatas',
           element: <FavouriteBiodatas></FavouriteBiodatas>
         },
-        // admin routes
+        // admin routes 
         {
           path: 'admin-dashboard',
           element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>
-        }
-        ,
+        },
+        {
+          path: 'all-req',
+          element: <AdminRoute><AllContactReq></AllContactReq></AdminRoute>
+        },
         {
           path: 'all-users',
           element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
